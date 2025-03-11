@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./alegra.db" //env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model Orders {
+  id String @id @default(uuid())
+  title String
+  assigned_to String
+  created_by String
+  status OrderStatus
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([assigned_to, created_by, status])
+}
+
+// model Ingredients {
+//   id String @id @default(uuid())
+//   order_id String
+//   food_id String
+//   created_at DateTime @default(now())
+//   updated_at DateTime @updatedAt
+// }
+
+// model Food {
+//   id String @id @default(uuid())
+//   name String
+//   photo String
+//   active Boolean @default(true)
+//   quantity Int @default(5)
+//   created_at DateTime @default(now())
+//   updated_at DateTime @updatedAt
+
+//   @@index([quantity, active])
+// }
